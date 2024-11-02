@@ -1,4 +1,4 @@
-package com.agorohov.restwallet.model;
+package com.agorohov.restwallet.dto;
 
 public enum OperationType {
     DEPOSIT,

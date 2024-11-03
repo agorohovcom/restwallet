@@ -1,11 +1,18 @@
 package com.agorohov.restwallet.dto;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
 import java.util.Objects;
 import java.util.UUID;
 
 public class WalletOperationRequest {
+    @NotNull(message = "Id кошелька не может быть пустым")
     private UUID walletId;
+    @NotNull(message = "Тип операции не может быть пустым")
     private OperationType operationType;
+    @NotNull(message = "Количество средств для операции не может быть пустым")
+    @Positive(message = "Количество средств для операции должно быть больше 0")
     private Double amount;
 
     public WalletOperationRequest() {

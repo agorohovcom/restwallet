@@ -1,8 +1,7 @@
 package com.agorohov.restwallet.service;
 
-//import com.agorohov.restwallet.exception.IncorrectFundsAmountException;
-
 import com.agorohov.restwallet.exception.NotEnoughBalanceException;
+import com.agorohov.restwallet.exception.TooLargeBalanceException;
 import com.agorohov.restwallet.exception.WalletNotFoundException;
 import com.agorohov.restwallet.model.Wallet;
 import com.agorohov.restwallet.repository.WalletRepository;
@@ -22,19 +21,22 @@ public class WalletService {
 
     @Transactional
     public Wallet deposit(UUID id, BigDecimal amount) {
-//        checkAmountIsNotNegative(amount);
         Wallet wallet = findById(id);
-        wallet.setBalance(wallet.getBalance().add(amount));
+        BigDecimal newBalance = wallet.getBalance().add(amount);
+        BigDecimal limit = new BigDecimal("99999999999999999");
+        if (newBalance.compareTo(limit) > 0) {
+            throw new TooLargeBalanceException("На балансе не может быть больше, чем 9999999999999999");
+        }
+        wallet.setBalance(newBalance);
         return repository.save(wallet);
     }
 
     @Transactional
     public Wallet withdraw(UUID id, BigDecimal amount) {
-//        checkAmountIsNotNegative(amount);
         Wallet wallet = findById(id);
         BigDecimal newBalance = wallet.getBalance().subtract(amount);
         if (newBalance.compareTo(BigDecimal.ZERO) < 0) {
-            throw new NotEnoughBalanceException("На балансе недостаточно средств");
+            throw new NotEnoughBalanceException("На балансе недостаточно средств для операции");
         }
         wallet.setBalance(newBalance);
         return repository.save(wallet);
@@ -44,11 +46,4 @@ public class WalletService {
         return repository.findById(walletId)
                 .orElseThrow(() -> new WalletNotFoundException("Кошелёк не найден"));
     }
-
-    // Для этого сделал валидацию. Удалить если пройдёт тесты
-//    private void checkAmountIsNotNegative(BigDecimal amount) {
-//        if(!(amount.compareTo(BigDecimal.ZERO) > 0)) {
-//            throw new IncorrectFundsAmountException("Количество средств для операции должно быть больше 0");
-//        }
-//    }
 }

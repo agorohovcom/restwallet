@@ -3,6 +3,7 @@ package com.agorohov.restwallet.dto;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -13,12 +14,12 @@ public class WalletOperationRequest {
     private OperationType operationType;
     @NotNull(message = "Количество средств для операции не может быть пустым")
     @Positive(message = "Количество средств для операции должно быть больше 0")
-    private Double amount;
+    private BigDecimal amount;
 
     public WalletOperationRequest() {
     }
 
-    public WalletOperationRequest(UUID id, OperationType operationType, Double amount) {
+    public WalletOperationRequest(UUID id, OperationType operationType, BigDecimal amount) {
         this.walletId = id;
         this.operationType = operationType;
         this.amount = amount;
@@ -40,11 +41,11 @@ public class WalletOperationRequest {
         this.operationType = operationType;
     }
 
-    public Double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

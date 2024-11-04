@@ -1,0 +1,27 @@
+services:
+  db:
+    image: postgres:17
+    container_name: restwallet_postgres_container
+    environment:
+      POSTGRES_USER: agorohov
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: restwallet_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - restwallet_postgres_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: restwallet_app_container
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/restwallet_db
+      SPRING_DATASOURCE_USERNAME: agorohov
+      SPRING_DATASOURCE_PASSWORD: 12345
+
+volumes:
+  restwallet_postgres_data:

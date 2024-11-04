@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "wallet")
+@Table(name = "wallets")
 public class Wallet {
     @Id
     @UuidGenerator(style = UuidGenerator.Style.RANDOM)

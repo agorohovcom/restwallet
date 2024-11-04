@@ -8,6 +8,7 @@ services:
       POSTGRES_DB: restwallet_db
     ports:
       - "5432:5432"
+    command: [ "postgres", "-c", "max_connections=1000" ]
     volumes:
       - restwallet_postgres_data:/var/lib/postgresql/data
 
@@ -22,6 +23,10 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/restwallet_db
       SPRING_DATASOURCE_USERNAME: agorohov
       SPRING_DATASOURCE_PASSWORD: 12345
+      SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE: 150
+    volumes:
+      - restwallet_app_logs:/app/logs
 
 volumes:
   restwallet_postgres_data:
+  restwallet_app_logs:

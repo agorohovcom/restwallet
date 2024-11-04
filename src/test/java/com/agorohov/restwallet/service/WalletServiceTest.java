@@ -108,7 +108,7 @@ class WalletServiceTest {
     }
 
     @Test
-    void findByIdCorrectTest() {
+    void findByIdExistsTest() {
         when(repositoryMock.findById(walletId)).thenReturn(Optional.of(wallet));
 
         Wallet actual = out.findById(walletId);
@@ -120,7 +120,7 @@ class WalletServiceTest {
     }
 
     @Test
-    void findByIdFailTest() {
+    void findByIdNotExistsTest() {
         when(repositoryMock.findById(any(UUID.class))).thenReturn(Optional.empty());
 
         assertThrows(WalletNotFoundException.class, () -> out.findById(failWalletId));

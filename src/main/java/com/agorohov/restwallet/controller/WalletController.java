@@ -14,11 +14,13 @@ import java.util.UUID;
 @RestController
 @RequestMapping("api/v1")
 public class WalletController {
+
     private final WalletService service;
 
     public WalletController(WalletService service) {
         this.service = service;
     }
+
     @PostMapping("/wallet")
     public ResponseEntity<Wallet> doOperation(@Valid @RequestBody WalletOperationRequest operationRequest) {
         Wallet result = null;

@@ -1,6 +1,7 @@
 HELP.md
 target/
 out/
+logs/
 .mvn/
 .gitattributes
 
